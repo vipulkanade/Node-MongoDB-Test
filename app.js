@@ -8,13 +8,20 @@ var express = require('express')
   , user = require('./routes/user')
   , favicon = require('serve-favicon')
   , furniture = require('./routes/furniture')
+  , furnitureitem = require('./routes/furnitureitem')
   , http = require('http')
+  , bodyParser = require('body-parser')
   , path = require('path');
 
 var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3333);
+
+//Config body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 //app.use(favicon(options.favicon));
@@ -45,6 +52,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/list', furniture.list);
+app.get('/furnitureItem/', furnitureitem.furnitureItem);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
